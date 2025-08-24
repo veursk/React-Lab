@@ -2,7 +2,7 @@
 
 > \*_"useMemo를 정확히 언제 써야할까?"_
 
-## React 메모이제이션 고민사항항
+## React 메모이제이션 고민사항
 
 React 개발하다 보면 맨날 고민되는 것들:
 
@@ -30,7 +30,7 @@ const result = useMemo(() => smallCalc(n), [n]);
 
 ### 2️⃣ 무거운 계산 vs useMemo
 
-**가설**: "진짜 무거운 계산은 useMemo가 이득이다다"
+**가설**: "진짜 무거운 계산은 useMemo가 이득이다"
 
 ```javascript
 // 5000개 배열 정렬 + 중복제거 + 합산
@@ -39,9 +39,9 @@ const result = useMemo(() => mediumAgg(data), [data]);
 
 ---
 
-### 3️⃣ 리스트 (per-item) 메모는 손해다다
+### 3️⃣ 리스트 (per-item) 메모는 손해다
 
-**가설**: "per-item 메모는 메모리 증가로 손해다다"
+**가설**: "per-item 메모는 메모리 증가로 손해다"
 
 4가지 조건으로 테스트:
 
