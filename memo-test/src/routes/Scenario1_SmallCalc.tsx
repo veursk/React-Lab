@@ -1,45 +1,45 @@
-import React from "react";
+import React, { Profiler } from "react";
 import SmallCalc_Baseline from "../components/SmallCalc_Baseline";
 import SmallCalc_Memo from "../components/SmallCalc_Memo";
-import { useTicker, RunnerFrame } from "./Runner";
+import { useTicker } from "./Runner";
+import { OptimizedProfiledRunner } from "../lib/profiler/OptimizedProfiledRunner";
 
-// 티커를 분리해서 불필요한 리렌더링 방지
-function TickerContent({ updateRateHz }: { updateRateHz: number }) {
+// Baseline 실험용 컴포넌트
+function TickerContent_Baseline({ updateRateHz }: { updateRateHz: number }) {
   const n = useTicker(updateRateHz);
   return (
-    <div className="grid">
-      <div>
-        <h3>🔴 Baseline (직접 계산)</h3>
-        <div
-          style={{
-            padding: "12px",
-            background: "#fff",
-            borderRadius: "8px",
-            border: "2px solid #e74c3c",
-            textAlign: "center",
-            fontSize: "18px",
-            fontWeight: "bold",
-          }}
-        >
-          <SmallCalc_Baseline n={n % 1000} />
-        </div>
-      </div>
-      <div>
-        <h3>🔵 useMemo (메모이제이션)</h3>
-        <div
-          style={{
-            padding: "12px",
-            background: "#fff",
-            borderRadius: "8px",
-            border: "2px solid #3498db",
-            textAlign: "center",
-            fontSize: "18px",
-            fontWeight: "bold",
-          }}
-        >
-          <SmallCalc_Memo n={n % 1000} />
-        </div>
-      </div>
+    <div
+      style={{
+        fontSize: "24px",
+        fontWeight: "bold",
+        color: "#e74c3c",
+        minHeight: "60px",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      <SmallCalc_Baseline n={n % 1000} />
+    </div>
+  );
+}
+
+// useMemo 실험용 컴포넌트
+function TickerContent_Memo({ updateRateHz }: { updateRateHz: number }) {
+  const n = useTicker(updateRateHz);
+  return (
+    <div
+      style={{
+        fontSize: "24px",
+        fontWeight: "bold",
+        color: "#3498db",
+        minHeight: "60px",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      <SmallCalc_Memo n={n % 1000} />
     </div>
   );
 }
@@ -52,10 +52,7 @@ export default function Scenario1({
   updateRateHz: number;
 }) {
   return (
-    <RunnerFrame
-      title="🧪 Scenario #1: SmallCalc (Baseline vs useMemo)"
-      durationMs={durationMs}
-    >
+    <div>
       <div
         style={{
           marginBottom: "20px",
@@ -75,7 +72,45 @@ export default function Scenario1({
         </p>
       </div>
 
-      <TickerContent updateRateHz={updateRateHz} />
-    </RunnerFrame>
+      {/* Baseline 실험 */}
+      <OptimizedProfiledRunner
+        title="🔴 Baseline (직접 계산)"
+        profilerId="smallcalc-baseline"
+        durationMs={durationMs}
+      >
+        <div
+          style={{
+            padding: "20px",
+            background: "#fff",
+            borderRadius: "12px",
+            border: "2px solid #e74c3c",
+            textAlign: "center",
+          }}
+        >
+          <h3 style={{ marginBottom: "16px" }}>SmallCalc Baseline</h3>
+          <TickerContent_Baseline updateRateHz={updateRateHz} />
+        </div>
+      </OptimizedProfiledRunner>
+
+      {/* useMemo 실험 */}
+      <OptimizedProfiledRunner
+        title="🔵 useMemo (메모이제이션)"
+        profilerId="smallcalc-memo"
+        durationMs={durationMs}
+      >
+        <div
+          style={{
+            padding: "20px",
+            background: "#fff",
+            borderRadius: "12px",
+            border: "2px solid #3498db",
+            textAlign: "center",
+          }}
+        >
+          <h3 style={{ marginBottom: "16px" }}>SmallCalc with useMemo</h3>
+          <TickerContent_Memo updateRateHz={updateRateHz} />
+        </div>
+      </OptimizedProfiledRunner>
+    </div>
   );
 }

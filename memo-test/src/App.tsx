@@ -3,10 +3,8 @@ import { Link, Route, Routes, useLocation } from "react-router-dom";
 import Scenario1 from "./routes/Scenario1_SmallCalc";
 import Scenario2 from "./routes/Scenario2_MediumHeavyCalc";
 import Scenario3 from "./routes/Scenario3_ListPerItem";
-import Scenario4 from "./routes/Scenario4_ListAggregated";
-import Scenario5 from "./routes/Scenario5_UnstableDeps";
-import Scenario6 from "./routes/Scenario6_Concurrent";
-import Scenario7 from "./routes/Scenario7_BigClosure";
+import Scenario4 from "./routes/Scenario4_UnstableDeps";
+import Scenario5 from "./routes/Scenario5_BigClosure";
 
 export default function App() {
   const [durationMs, setDurationMs] = useState(10000);
@@ -33,16 +31,10 @@ export default function App() {
             #3 List per-item
           </Link>
           <Link to="/s4" className={isActive("/s4") ? "active" : ""}>
-            #4 List aggregated
+            #4 Unstable deps
           </Link>
           <Link to="/s5" className={isActive("/s5") ? "active" : ""}>
-            #5 Unstable deps
-          </Link>
-          <Link to="/s6" className={isActive("/s6") ? "active" : ""}>
-            #6 Concurrent
-          </Link>
-          <Link to="/s7" className={isActive("/s7") ? "active" : ""}>
-            #7 Big closure
+            #5 Big closure
           </Link>
         </nav>
       </header>
@@ -83,11 +75,24 @@ export default function App() {
             <Scenario2 durationMs={durationMs} updateRateHz={updateRateHz} />
           }
         />
-        <Route path="/s3" element={<Scenario3 durationMs={durationMs} />} />
-        <Route path="/s4" element={<Scenario4 />} />
-        <Route path="/s5" element={<Scenario5 />} />
-        <Route path="/s6" element={<Scenario6 />} />
-        <Route path="/s7" element={<Scenario7 />} />
+        <Route
+          path="/s3"
+          element={
+            <Scenario3 durationMs={durationMs} updateRateHz={updateRateHz} />
+          }
+        />
+        <Route
+          path="/s4"
+          element={
+            <Scenario4 durationMs={durationMs} updateRateHz={updateRateHz} />
+          }
+        />
+        <Route
+          path="/s5"
+          element={
+            <Scenario5 durationMs={durationMs} updateRateHz={updateRateHz} />
+          }
+        />
       </Routes>
     </div>
   );
